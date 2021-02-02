@@ -20,17 +20,29 @@ server.addService(todoPackage.Todo.service , {
 
 server.start();
 
-
+const todos = [];
 
 function createTodo(call , callback){
+
+    const todoItem = {
+
+        "id":todos.length + 1,
+        "text":call.request.text
+
+    }
+
+    todos.push(todoItem);
+    callback(null , todoItem);
 
 }
 
 function readTodos(call , callback){
 
+    todos.forEach(t => call.write(t));
+    call.end();
 }
 
 function readTodosStream(call , callback){
 
-
+    callback(null , {"items" : todos});
 }
